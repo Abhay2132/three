@@ -62,17 +62,15 @@ Car.then((c) => {
 
 scene.cb = ({ controls, camera }) => {
 	if (!car) return;
+	maxSpeed = dir == "up" ? defaultMaxSpeed : 2.0;
 	updateSpeed();
 	switch( dir ) {
 		case "right" : 
-			maxSpeed = 2.0;
 			car.rotation.y -= dt * Math.abs(speed) * msi;
 			break;
 		case "left" : 
-			maxSpeed = 2.0;
 			car.rotation.y += dt * Math.abs(speed) * msi;
 			break;
-		default : maxSpeed = defaultMaxSpeed;
 	};
 	let a = car.rotation.y// - ninety;
 	let x = parseFloat((speed * Math.cos(a)).toFixed(3));
@@ -96,7 +94,7 @@ function onmove(evt, data) {
 	moving = 1;
 	angle = data.angle.radian;
 	//speed = parseFloat((boost * data.distance).toFixed(3));
-	switch ( dir ) {
+	switch ( dir) {
 		case "down" : acceleration = -1 * maxAcceleration * data.distance * maxJSdistance;
 			break;
 		default : acceleration = maxAcceleration * data.distance * maxJSdistance;
