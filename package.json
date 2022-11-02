@@ -1,0 +1,19 @@
+{
+  "name": "three",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "live-server": "^1.2.2",
+    "nipplejs": "^0.10.0",
+    "stats.js": "^0.17.0",
+    "three": "^0.146.0",
+    "webpack": "^5.74.0"
+  }
+}

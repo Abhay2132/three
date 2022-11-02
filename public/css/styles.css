@@ -1,0 +1,30 @@
+body {
+	margin: 0;
+}
+#viewport {
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: #fff;
+}
+#jsc {
+	--size: 100px;
+	height: var(--size);
+	width: var(--size);
+	position: fixed;
+	bottom: 2px;
+	left: calc(50% - var(--size) / 2);
+}
+
+#logs {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 200px;
+	background: #eee;
+	padding: 2px;
+	box-sizing: border-box;
+	overflow: auto;
+	font-family: arial;
+	font-size: 12px;
+}
