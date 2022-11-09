@@ -11,7 +11,7 @@ document.body.appendChild(stats.dom);
 requestAnimationFrame(animate);
 const width = window.innerWidth;
 const height = window.innerHeight;
-const camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+const camera = scene.camera || new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
 //const camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
 
 const renderer = new THREE.WebGLRenderer({
@@ -46,6 +46,4 @@ window.onresize = function () {
 	renderer.setSize(window.innerWidth, window.innerHeight);
 };
 
-document.body.onclick = () => {
-	//console.log(camera.position);
-};
+document.body.onclick = () => document.documentElement.requestFullscreen();

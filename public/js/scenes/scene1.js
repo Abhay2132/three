@@ -3,6 +3,7 @@ import ajs from "../items/joystick.js";
 import { $ , log } from "../hlpr.js";
 import Car from "../items/car.js";
 import plane from "../items/plane.js";
+import {cube} from "../items/cube.js";
 
 const scene = new THREE.Scene();
 const ninety = Math.PI * 0.5;
@@ -18,47 +19,53 @@ let dir = "";
 let acceleration = 0;
 let defaultFriction = 0.01;
 let friction = defaultFriction;
-var car = false;
 var jm = false;
 const dt = ((Math.PI / 180)* 2);
 const boost = 0.02;
 let speedDir = 1;
 
 // Load Plane
-plane.rotation.x = Math.PI / 2;
+plane.rotation.x = - Math.PI / 2;
+plane.add(new THREE.AxesHelper(50));
 scene.add(plane);
 
 // add axes  + grid
-var axes = new THREE.AxesHelper(50);
-const gridHelper = new THREE.GridHelper(1000, 60);
-scene.add(axes);
-scene.add(gridHelper);
+//scene.add(new THREE.GridHelper(1000, 60));
 
 // SetUp Lighting + bg
-const light1 = new THREE.DirectionalLight(0xffffff, 1);
-light1.position.set(-5, 1, 10);
-scene.add(light1);
-const light2 = new THREE.DirectionalLight(0xffffff, 1);
-light2.position.set(-5, 1, -10);
-scene.add(light2);
-const light3 = new THREE.DirectionalLight(0xffffff, 1);
-light3.position.set(5, 1, 0);
-scene.add(light3);
+const light = new THREE.DirectionalLight( 0xffffff, 1 );
+light.position.set( 0, 100, 50 );
+//light.castShadow = true;
+light.add( new THREE.AxesHelper( 10 ) );
+
+scene.add(light);
+/*
+light.shadow.mapSize.width = 512*10; // default
+light.shadow.mapSize.height = 512*10; 
+light.shadow.camera.near = 0.5*10; // default
+light.shadow.camera.far = 500*50; // default
+*/
 scene.background = new THREE.Color(0xffffff);
 
+
 // Load Car + Joystick
+const car = cube;
+scene.add(car);
+/*
 Car.then((c) => {
 	const axesHelper = new THREE.AxesHelper( 500 );
 	c.add( axesHelper );
 	c.position.y = 2.4;
-	const s = 0.06;
+	const s = 1;
 	c.scale.set(s, s, s);
+	//c.traverse(node => {if(node.isMesh) node.castShadow = true; });
 	scene.add(c);
 	car = c;
 
-	jm = ajs({ zone: $("#jsc"), color: "#333" });
-	addJSevents(jm[0]);
 });
+*/
+jm = ajs({ zone: $("#jsc"), color: "#333" });
+addJSevents(jm[0]);
 
 scene.cb = ({ controls, camera }) => {
 	if (!car) return;
@@ -93,7 +100,6 @@ scene.cb = ({ controls, camera }) => {
 function onmove(evt, data) {
 	moving = 1;
 	angle = data.angle.radian;
-	//speed = parseFloat((boost * data.distance).toFixed(3));
 	switch ( dir) {
 		case "down" : acceleration = -1 * maxAcceleration * data.distance * maxJSdistance;
 			break;
@@ -125,5 +131,9 @@ function updateSpeed () {
 	if ( Math.abs(speed) > maxSpeed ) speed = speed > 0 ? maxSpeed : -maxSpeed;
 	if (acceleration == 0 && Math.abs(speed) <= defaultFriction ) speed = 0;
 }
-
+/*
+const width = window.innerWidth;
+const height = window.innerHeight;
+scene.camera = new THREE.OrthographicCamera( width / - 2, width / 2, height / 2, height / - 2, 1, 1000 );
+*/
 export default scene;
